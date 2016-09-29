@@ -23,44 +23,39 @@ thoughtSubmittedToday(function(hasSubmitted) {
       var data = {};
       $('body').attr('id', 'acfthinks-body').html(render(data));
 
-      $("#thought-bar").keypress(function (e) {
-        var key = e.which;
-        if (key == 13 && !e.shiftKey) {
-          e.preventDefault();
-          $(this).attr('readonly', true).addClass("submitted");
-          var thought = $(this)[0].value;
-          saveThought(thought);
-          startCompletedTransition();
-        }
-      });
-
-      $(document)
-      .one('focus.textarea', '#thought-bar', function(){
-        var savedValue = this.value;
-        this.value = '';
-        this.baseScrollHeight = this.scrollHeight;
-        this.value = savedValue;
-      })
-      .on('input.textarea', '#thought-bar', function(){
-        var minRows = this.getAttribute('data-min-rows')|0;
-        var maxRows = this.getAttribute('data-max-rows');
-        if (maxRows == null) {
-          maxRows = 99999;
-        }
-        var rows;
-        this.rows = minRows;
-        rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 50);
-        this.rows = Math.min(minRows + rows, maxRows);
-      });
-
       getLatestMessage(function(message) {
         $('#latest-message').append("<p>"+str2Html(message.body)+"</p>");
-      });
 
-      getAllThoughts(function(thoughts) { 
-        $.each(thoughts, function(id, thought) {
-          $('#thoughts').append("<p>"+thought.thought+" "+thought.date+"</p>"); 
+        $("#thought-bar").keypress(function (e) {
+          var key = e.which;
+          if (key == 13 && !e.shiftKey) {
+            e.preventDefault();
+            $(this).attr('readonly', true).addClass("submitted");
+            var thought = $(this)[0].value;
+            saveThought(thought, message.url);
+            startCompletedTransition();
+          }
         });
+
+        $(document)
+        .one('focus.textarea', '#thought-bar', function(){
+          var savedValue = this.value;
+          this.value = '';
+          this.baseScrollHeight = this.scrollHeight;
+          this.value = savedValue;
+        })
+        .on('input.textarea', '#thought-bar', function(){
+          var minRows = this.getAttribute('data-min-rows')|0;
+          var maxRows = this.getAttribute('data-max-rows');
+          if (maxRows == null) {
+            maxRows = 99999;
+          }
+          var rows;
+          this.rows = minRows;
+          rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 50);
+          this.rows = Math.min(minRows + rows, maxRows);
+        });
+
       });
     });
   }

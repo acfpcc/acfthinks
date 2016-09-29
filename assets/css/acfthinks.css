@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+}
+
 #acfthinks-body {
   font-family: 'Karla', sans-serif;
   height: 100%;
@@ -36,6 +40,7 @@ main div.acfthinks-content {
   overflow: scroll;
   padding: 25px 20px;
   font-size: 12pt;
+  position: relative;
 }
 
 #latest-message {
@@ -51,7 +56,11 @@ main div.acfthinks-content {
   text-align: center;
 }
 
-#thought-prompt span.gradient {
+p.subheading {
+  font-size: 32pt;
+  text-align: center;
+}
+p.subheading .gradient {
   background: linear-gradient(-153deg, #47928f 0%, #5d3cb7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -100,4 +109,42 @@ main div.acfthinks-content {
   -webkit-transform:rotate(-25deg);
   transform:rotate(-25deg);
   transform-origin: 120% 150%;
+}
+
+.thoughts {
+  list-style-type: none;
+  position: relative;
+  padding: 0;
+}
+.thoughts:empty::after{
+  content: attr(data-empty-message);
+  display: block;
+  text-align: center;
+  color: #c0c0c0;
+  font-size: 12pt;
+  text-transform: uppercase;
+}
+.thoughts .thoughts-item .thought {
+  font-size: 16pt;
+}
+.thoughts .thoughts-item .date {
+  color: #909090;
+}
+
+.delete {
+  display: inline-block;
+  float: right;
+  margin:5px 12px 0 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+button {
+  background: none;
+  border: none;
+}
+
+div.container {
+  margin: 50px 0px;
 }

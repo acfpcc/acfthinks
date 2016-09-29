@@ -1,14 +1,18 @@
 {
   "manifest_version": 2,
-
   "name": "ACF Thinks",
+  "version": "0.2",
+
+  "short_name": "ACF Thinks",
   "description": "A place where ACFers can write their thoughts",
-  "version": "0.1",
   "icons": { 
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
   },
+
+  "author": "Paul Chun",
+  "homepage_url": "http://acfpcc.org",
 
   "web_accessible_resources": [
     "assets/images/*",
@@ -17,8 +21,18 @@
     "messages/*"
   ],
 
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
+
+  "browser_action": {
+    "default_title": "ACF Thinks"
+  },
+
   "permissions": [
+    "background",
     "storage",
+    "tabs",
     "http://acf-pcc.appspot.com/",
     "https://acf-pcc.appspot.com/",
     "http://www.facebook.com/*",
@@ -28,6 +42,7 @@
     "http://www.youtube.com/*",
     "https://www.youtube.com/*"
   ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "content_scripts": [
     {
@@ -35,38 +50,12 @@
         "http://www.facebook.com/*", 
         "https://www.facebook.com/*",
         "http://web.facebook.com/*",
-        "https://web.facebook.com/*"
-      ],
-      "js": [
-        "scripts/underscore.js", 
-        "scripts/jquery.js", 
-        "scripts/api.js",
-        "scripts/prompt.js"
-      ],
-      "css": [
-        "assets/css/normalize.css",
-        "assets/css/fonts.css", 
-        "assets/css/facebook.css",
-        "assets/css/acfthinks.css"
-      ],
-      "run_at": "document_end"
-    },
-    {
-      "matches": [
+        "https://web.facebook.com/*",
         "http://www.youtube.com/*",
         "https://www.youtube.com/*"
       ],
       "js": [
-        "scripts/underscore.js", 
-        "scripts/jquery.js", 
-        "scripts/api.js",
-        "scripts/prompt.js"
-      ],
-      "css": [
-        "assets/css/normalize.css",
-        "assets/css/fonts.css", 
-        "assets/css/youtube.css",
-        "assets/css/acfthinks.css"
+        "scripts/inject.js"
       ],
       "run_at": "document_end"
     }
