@@ -100,7 +100,7 @@ p.subheading .gradient {
   -webkit-text-fill-color: transparent;
 }
 .title:after{
-  content: "alpha";
+  content: "beta";
   display: inline-block;
   font-size: 22px;
   font-family: 'Indie Flower';
@@ -108,7 +108,7 @@ p.subheading .gradient {
   -ms-transform:rotate(-25deg);
   -webkit-transform:rotate(-25deg);
   transform:rotate(-25deg);
-  transform-origin: 120% 150%;
+  transform-origin: 90% 250%;
 }
 
 .thoughts {
