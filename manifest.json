@@ -1,0 +1,74 @@
+{
+  "manifest_version": 2,
+
+  "name": "ACF Thinks",
+  "description": "A place where ACFers can write their thoughts",
+  "version": "0.1",
+  "icons": { 
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+
+  "web_accessible_resources": [
+    "assets/images/*",
+    "assets/fonts/*",
+    "templates/*",
+    "messages/*"
+  ],
+
+  "permissions": [
+    "storage",
+    "http://acf-pcc.appspot.com/",
+    "https://acf-pcc.appspot.com/",
+    "http://www.facebook.com/*",
+    "https://www.facebook.com/*",
+    "http://web.facebook.com/*",
+    "https://web.facebook.com/*",
+    "http://www.youtube.com/*",
+    "https://www.youtube.com/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "http://www.facebook.com/*", 
+        "https://www.facebook.com/*",
+        "http://web.facebook.com/*",
+        "https://web.facebook.com/*"
+      ],
+      "js": [
+        "scripts/underscore.js", 
+        "scripts/jquery.js", 
+        "scripts/api.js",
+        "scripts/prompt.js"
+      ],
+      "css": [
+        "assets/css/normalize.css",
+        "assets/css/fonts.css", 
+        "assets/css/facebook.css",
+        "assets/css/acfthinks.css"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "http://www.youtube.com/*",
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "scripts/underscore.js", 
+        "scripts/jquery.js", 
+        "scripts/api.js",
+        "scripts/prompt.js"
+      ],
+      "css": [
+        "assets/css/normalize.css",
+        "assets/css/fonts.css", 
+        "assets/css/youtube.css",
+        "assets/css/acfthinks.css"
+      ],
+      "run_at": "document_end"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+#acfthinks-body {
+  font-family: 'Karla', sans-serif;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  background-image: linear-gradient(-153deg, #C7CDFF 0%, #96FDB4 100%) !important;
+  overflow:auto;
+}
+
+main {
+  position: relative;
+  background: none;
+  height: 100%;
+  width: 80%;
+  margin: 0 auto;
+  padding: 0px;
+  overflow: auto;
+}
+
+#inner {
+  background: none;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0px;
+  overflow: auto;
+  max-height: 80%;
+}
+
+main div.acfthinks-content {
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 20px;
+  height: 100%;
+  overflow: scroll;
+  padding: 25px 20px;
+  font-size: 12pt;
+}
+
+#latest-message {
+  font-size: 24pt;
+  text-align: center;
+  background: none;
+}
+
+#thought-prompt {
+  font-size: 32pt;
+  color: white;
+  background: none;
+  text-align: center;
+}
+
+#thought-prompt span.gradient {
+  background: linear-gradient(-153deg, #47928f 0%, #5d3cb7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#thought-prompt #thought-bar {
+  width: 100%;
+  font-size: 32pt;
+  padding: 0.5em 0.2em;
+  margin: 0.2em 0 1em 0;
+  box-sizing: border-box;
+  background: linear-gradient(30deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+  border: none;
+  margin-top: 20px;
+  color: #5F5F5F;
+  box-shadow: 1px 1px 30px rgba(255,255,255,.1);
+  text-align: center;
+  outline: none;
+  resize: none;
+}
+
+#thought-prompt #thought-bar.submitted {
+  background: none;
+  box-shadow: none;
+}
+
+.title {
+  text-align: center;
+  font-size: 40pt;
+  font-family: 'Josefin Sans';
+  min-width: 400px;
+  width: 100%;
+}
+.title span.gradient {
+  background: linear-gradient(-153deg, #ff6565 0%, #9d3cff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.title:after{
+  content: "alpha";
+  display: inline-block;
+  font-size: 22px;
+  font-family: 'Indie Flower';
+  color: #fff;
+  -ms-transform:rotate(-25deg);
+  -webkit-transform:rotate(-25deg);
+  transform:rotate(-25deg);
+  transform-origin: 120% 150%;
+}
