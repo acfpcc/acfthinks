@@ -25,8 +25,7 @@ function insertCSSFiles(tabId, injectDetailsArray) {
 }
 
 chrome.browserAction.onClicked.addListener(function(tab) {
-  var dashboardURL = chrome.extension.getURL("pages/dashboard.html");
-  chrome.tabs.create({url: dashboardURL});
+  chrome.tabs.create({url: "pages/dashboard.html"});
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -43,4 +42,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     response["getCurrentURL"] = sender.tab.url;
   }
   sendResponse(response);
+});
+
+chrome.runtime.onInstalled.addListener(function(details) {
+  chrome.tabs.create({url: "pages/help.html"});
 });

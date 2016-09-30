@@ -56,14 +56,29 @@ main div.acfthinks-content {
   text-align: center;
 }
 
-p.subheading {
+p.heading {
   font-size: 32pt;
   text-align: center;
+  padding-bottom: 32px;
+}
+p.heading .gradient {
+  background: linear-gradient(-153deg, #47928f 0%, #5d3cb7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p.subheading {
+  font-size: 16pt;
+  padding-bottom: 16px;
 }
 p.subheading .gradient {
   background: linear-gradient(-153deg, #47928f 0%, #5d3cb7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+p.content {
+  padding-bottom: 24px;
 }
 
 #thought-prompt #thought-bar {
@@ -148,4 +163,20 @@ button {
 
 div.container {
   margin: 50px 0px;
+}
+
+a {
+  text-decoration: none;
+  color: #555555;
+}
+
+a:hover {
+  color: #777777;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12pt;
+  text-transform: uppercase;
+  font-weight: 900;
 }
