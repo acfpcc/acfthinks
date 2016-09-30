@@ -139,6 +139,10 @@ p.content {
   font-size: 12pt;
   text-transform: uppercase;
 }
+.thoughts .thoughts-item {
+  position: relative;
+  padding-bottom: 10px;
+}
 .thoughts .thoughts-item .thought {
   font-size: 16pt;
 }
