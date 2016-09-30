@@ -15,6 +15,25 @@ function startCompletedTransition() {
   });
 }
 
+function getToggleContent(width, height) {
+  var imgUrl = chrome.extension.getURL("assets/images/paul.png");
+  var container = $("<div>");
+  container.css({
+    display: "inline-block",
+    verticalAlign: "top",
+    width: width,
+    height: height,
+  });
+  var image = $("<img>");
+  image.css({
+    maxHeight: "100%",
+    maxWidth: "100%",
+  });
+  image.attr("src", imgUrl);
+  container.append(image);
+  return container;
+}
+
 thoughtSubmittedToday(function(hasSubmitted) {
   if (!hasSubmitted) {
     var templateUrl = chrome.extension.getURL("templates/prompt.html");
@@ -22,6 +41,17 @@ thoughtSubmittedToday(function(hasSubmitted) {
       var render = _.template(template);
       var data = {};
       $('body').attr('id', 'acfthinks-body').html(render(data));
+
+      $('.hi').click(function(e) {
+        e.preventDefault();
+        if ($(this).data("toggleContent") === undefined) {
+          $(this).data("toggleContent", 
+              getToggleContent($(this).width(), $(this).height()));
+        }
+        var newToggleContent = $(this).html();
+        $(this).html($(this).data("toggleContent"));
+        $(this).data("toggleContent", newToggleContent);
+      });
 
       getLatestMessage(function(message) {
         $('#latest-message').append("<p>"+str2Html(message.body)+"</p>");
