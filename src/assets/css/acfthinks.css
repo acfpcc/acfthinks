@@ -11,6 +11,16 @@ html, body {
   overflow:auto;
 }
 
+div.screen {
+  position: relative;
+  background: none;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0px;
+  overflow: scroll;
+}
+
 main {
   position: relative;
   background: none;
@@ -18,12 +28,12 @@ main {
   width: 80%;
   margin: 0 auto;
   padding: 0px;
-  overflow: auto;
+  overflow: visible;
 }
 
 #inner {
   background: none;
-  width: 100%;
+  width: 80%;
   transform: translate(-50%, -50%);
   position: absolute;
   top: 50%;

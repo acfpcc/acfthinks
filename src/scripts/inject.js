@@ -15,16 +15,8 @@ function extractDomain(url) {
     }
 }
 
-chrome.storage.sync.get({lastDate: null}, function(result) {
-  var today = new Date();
-  var hasSubmitted;
-  if (result.lastDate == null) {
-    hasSubmitted = false;
-  } else {
-    var lastDate = new Date(result.lastDate);
-    hasSubmitted = (lastDate.toDateString() === today.toDateString())
-  }
-  if (!hasSubmitted) {
+getState(function(state) {
+  if (!state.submitted) {
     chrome.runtime.sendMessage({getCurrentURL: true}, function(response) {
       var domain = extractDomain(response.getCurrentURL);
       var cssFiles = [

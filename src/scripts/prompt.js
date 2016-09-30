@@ -85,4 +85,12 @@ $.get(templateUrl, {}, function(template) {
     });
 
   });
+
+  lastDateListener(function(after, before) {
+    thoughtSubmittedToday(function(submitted) {
+      if (submitted) {
+        startCompletedTransition();
+      }
+    });
+  });
 });

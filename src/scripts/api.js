@@ -105,6 +105,16 @@ function thoughtsListener(action) {
   });
 }
 
+function lastDateListener(action) {
+  chrome.storage.onChanged.addListener(function(changes, namespace) {
+    if (namespace == "sync" && _.has(changes, "lastDate")) {
+      var before = changes["lastDate"].oldValue;
+      var after = changes["lastDate"].newValue;
+      action(after, before)
+    }
+  });
+}
+
 function getAllThoughts(callback) {
   chrome.storage.sync.get({thoughts: {}}, function(result) {
     callback(result.thoughts);
@@ -122,16 +132,8 @@ function getThought(id, callback) {
 }
 
 function thoughtSubmittedToday(callback) {
-  chrome.storage.sync.get({lastDate: null}, function(result) {
-    var today = new Date();
-    var hasSubmitted;
-    if (result.lastDate == null) {
-      hasSubmitted = false;
-    } else {
-      var lastDate = new Date(result.lastDate);
-      hasSubmitted = (lastDate.toDateString() === today.toDateString());
-    }
-    callback(hasSubmitted);
+  getState(function(state) {
+    callback(state.submitted);
   });
 }
 
