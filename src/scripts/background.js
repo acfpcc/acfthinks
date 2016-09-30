@@ -4,12 +4,9 @@ function executeScripts(tabId, injectDetailsArray) {
       chrome.tabs.executeScript(tabId, injectDetails, innerCallback);
     };
   }
-
   var callback = null;
-
   for (var i = injectDetailsArray.length - 1; i >= 0; --i)
     callback = createCallback(tabId, injectDetailsArray[i], callback);
-
   if (callback !== null)
     callback(); 
 }
@@ -20,12 +17,9 @@ function insertCSSFiles(tabId, injectDetailsArray) {
       chrome.tabs.insertCSS(tabId, injectDetails, innerCallback);
     };
   }
-
   var callback = null;
-
   for (var i = injectDetailsArray.length - 1; i >= 0; --i)
     callback = createCallback(tabId, injectDetailsArray[i], callback);
-
   if (callback !== null)
     callback(); 
 }
