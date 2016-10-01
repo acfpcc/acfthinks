@@ -41,6 +41,7 @@ main {
   padding: 0px;
   overflow: auto;
   max-height: 80%;
+  overflow: visible;
 }
 
 main div.acfthinks-content {
@@ -64,6 +65,16 @@ main div.acfthinks-content {
   color: white;
   background: none;
   text-align: center;
+}
+
+p.prompt {
+  font-size: 32pt;
+  text-align: center;
+}
+p.prompt .gradient {
+  background: linear-gradient(-153deg, #47928f 0%, #5d3cb7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 p.heading {

@@ -7,6 +7,7 @@ function getState(callback) {
     } else {
       var EARLIEST_HOUR = 6
       var lastDate = new Date(result.lastDate);
+      today.setHours(today.getHours() - EARLIEST_HOUR);
       lastDate.setHours(lastDate.getHours() - EARLIEST_HOUR);
       state["submitted"] = (lastDate.toDateString() === today.toDateString())
     }
