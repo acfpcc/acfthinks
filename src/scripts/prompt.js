@@ -60,7 +60,7 @@ $.get(templateUrl, {}, function(template) {
         e.preventDefault();
         $(this).attr('readonly', true).addClass("submitted");
         var thought = $(this)[0].value;
-        saveThought(thought, message.url);
+        createThought(thought, message.url);
         startCompletedTransition();
       }
     });

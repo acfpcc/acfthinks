@@ -33,7 +33,7 @@ function wipeStorage() {
   chrome.storage.sync.clear();
 }
 
-function saveThought(thought, messageUrl) {
+function createThought(thought, messageUrl) {
   messageUrl = (typeof messageUrl === 'undefined') ? '' : messageUrl;
   if (!thought) {
     message('Error: No thought was specified');
@@ -56,7 +56,25 @@ function saveThought(thought, messageUrl) {
       lastDate: lastDate,
       idCount: idCount
     }, function() {
-      console.log("Saved "+thought+"!");
+      console.log("Created thought!");
+    });
+  });
+}
+
+function saveThought(id, thought) {
+  if (!thought) {
+    message('Error: No thought was specified');
+    return;
+  }
+  chrome.storage.sync.get({thoughts: {}}, function (result) {
+    var thoughts = result.thoughts;
+    if (_.has(thoughts, id)) {
+      thoughts[id].thought = thought;
+    }
+    chrome.storage.sync.set({
+      thoughts: thoughts
+    }, function() {
+      console.log("Saved thought!");
     });
   });
 }
@@ -84,7 +102,7 @@ function deleteThought(id) {
         lastId: lastId, 
         lastDate: lastDate
       }, function() {
-        console.log("Delete "+id+"!");
+        console.log("Deleted "+id+"!");
       });
     }
   });
@@ -92,7 +110,6 @@ function deleteThought(id) {
 
 function thoughtsListener(action) {
   chrome.storage.onChanged.addListener(function(changes, namespace) {
-    console.log(changes);
     if (namespace == "sync" && _.has(changes, "thoughts")) {
       var before = changes["thoughts"].oldValue;
       var after = changes["thoughts"].newValue;

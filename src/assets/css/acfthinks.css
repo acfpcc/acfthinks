@@ -166,18 +166,28 @@ p.content {
 }
 .thoughts .thoughts-item .thought {
   font-size: 16pt;
+  margin-right: 100px;
+  word-wrap: break-word;
+}
+.thoughts .thoughts-item .thought.editable {
+  outline: none;
+  background: linear-gradient(30deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+  box-shadow: 1px 1px 30px rgba(255,255,255,.1);
 }
 .thoughts .thoughts-item .date {
   color: #909090;
 }
 
-.delete {
+.buttons {
   display: inline-block;
   float: right;
   margin:5px 12px 0 0;
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.buttons button {
   outline: none;
 }
 
@@ -199,7 +209,15 @@ a:hover {
   color: #777777;
 }
 
-.footer {
+.footer ul.links {
+  list-style-type: none;
+  padding: 0;
+  text-align: center;
+}
+
+.footer ul.links li {
+  padding: 0px 5px;
+  display: inline;
   text-align: center;
   font-size: 12pt;
   text-transform: uppercase;

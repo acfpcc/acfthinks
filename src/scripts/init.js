@@ -1,3 +1,10 @@
+function consideredSameDate(first, second) {
+  var EARLIEST_HOUR = 6;
+  first.setHours(first.getHours() - EARLIEST_HOUR);
+  second.setHours(second.getHours() - EARLIEST_HOUR);
+  return (first.toDateString() === second.toDateString())
+}
+
 function getState(callback) {
   chrome.storage.sync.get({lastDate: null}, function(result) {
     var state = {};
@@ -5,11 +12,8 @@ function getState(callback) {
     if (result.lastDate == null) {
       state["submitted"] = false;
     } else {
-      var EARLIEST_HOUR = 6
       var lastDate = new Date(result.lastDate);
-      today.setHours(today.getHours() - EARLIEST_HOUR);
-      lastDate.setHours(lastDate.getHours() - EARLIEST_HOUR);
-      state["submitted"] = (lastDate.toDateString() === today.toDateString())
+      state["submitted"] = consideredSameDate(today, lastDate);
     }
     callback(state);
   });

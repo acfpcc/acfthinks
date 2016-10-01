@@ -21,5 +21,12 @@ var curr_year = date.getFullYear();
 print(curr_date + "<SUP>" + sup + "</SUP> " 
 + m_names[curr_month].toUpperCase() + " " + curr_year);
    %></p>
-  <button class="delete material-icons" data-thought-id=<%= id %>>clear</button>
+  <div class="buttons">
+    <% if (canEdit) {
+      print('<button class="edit material-icons" data-thought-id='+id+'>edit</button>');
+    } %>
+    <button class="delete material-icons" data-thought-id=<%= id %>>
+      clear
+    </button>
+  </div>
 </li>
