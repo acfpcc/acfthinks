@@ -6,7 +6,7 @@ function consideredSameDate(first, second) {
 }
 
 function getState(callback) {
-  chrome.storage.sync.get({lastDate: null}, function(result) {
+  chrome.storage.sync.get({lastDate: null, websites: []}, function(result) {
     var state = {};
     var today = new Date();
     if (result.lastDate == null) {
@@ -15,6 +15,7 @@ function getState(callback) {
       var lastDate = new Date(result.lastDate);
       state["submitted"] = consideredSameDate(today, lastDate);
     }
+    state["websites"] = websites;
     callback(state);
   });
 }

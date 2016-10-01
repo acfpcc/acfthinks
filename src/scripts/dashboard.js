@@ -63,7 +63,8 @@ $(function() {
       var templateUrl = chrome.extension.getURL("templates/thoughts-item.html");
       $.get(templateUrl, {}, function(template) {
         var render = _.template(template);
-        $.each(thoughts, function(id, thought) {
+        var sortedThoughts = _.sortBy(_.values(thoughts), 'date').reverse(); 
+        $.each(sortedThoughts, function(index, thought) {
           addThoughtItem(thought, render);
         });
 
