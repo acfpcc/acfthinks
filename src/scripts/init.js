@@ -15,7 +15,7 @@ function getState(callback) {
       var lastDate = new Date(result.lastDate);
       state["submitted"] = consideredSameDate(today, lastDate);
     }
-    state["websites"] = websites;
+    state["websites"] = result.websites;
     callback(state);
   });
 }
