@@ -3,7 +3,7 @@ function startCompletedTransition() {
     $("#thought-prompt span.gradient").stop().animate({
       opacity: 0
     }, 500, function() {
-      getMessage("submitted", function(message) {
+      ACFThinksAPI.getMessage("submitted", function(message) {
         $("#thought-prompt span.gradient").text(message)
         .animate({
           opacity: 1
@@ -51,8 +51,9 @@ $.get(templateUrl, {}, function(template) {
     $(this).data("toggleContent", newToggleContent);
   });
 
-  getLatestMessage(function(message) {
-    $('#latest-message').append("<p>"+str2Html(message.body)+"</p>");
+  ACFThinksAPI.getLatestMessage(function(message) {
+    $('#latest-message').append(
+        "<p>"+ACFThinksAPI.str2Html(message.body)+"</p>");
 
     $("#thought-bar").keypress(function (e) {
       var key = e.which;
@@ -60,7 +61,7 @@ $.get(templateUrl, {}, function(template) {
         e.preventDefault();
         $(this).attr('readonly', true).addClass("submitted");
         var thought = $(this)[0].value;
-        createThought(thought, message.url);
+        ACFThinksAPI.createThought(thought, message.url);
         startCompletedTransition();
       }
     });
@@ -86,8 +87,8 @@ $.get(templateUrl, {}, function(template) {
 
   });
 
-  lastDateListener(function(after, before) {
-    thoughtSubmittedToday(function(submitted) {
+  ACFThinksAPI.lastDateListener(function(after, before) {
+    ACFThinksAPI.thoughtSubmittedToday(function(submitted) {
       if (submitted) {
         startCompletedTransition();
       }

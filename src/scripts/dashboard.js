@@ -19,20 +19,20 @@ function placeCaretAtEnd(el) {
 function addThoughtItem(thought, render) {
   var data = {
     date: new Date(thought.date), 
-    thought: str2Html(thought.thought),
+    thought: ACFThinksAPI.str2Html(thought.thought),
     id: thought.id,
     messageUrl: thought.messageUrl,
     canEdit: consideredSameDate(new Date(), new Date(thought.date))
   };
   $('.thoughts').append(render(data)); 
   $("#thought-item-"+thought.id+" .delete").click(function() {
-    deleteThought($(this).data("thoughtId"));
+    ACFThinksAPI.deleteThought($(this).data("thoughtId"));
   });
   $("#thought-item-"+thought.id+" .edit").click(function() {
     var isEdit = $(this).data("isEdit");
     var thoughtBox = $("#thought-item-"+thought.id+" .thought");
     if (isEdit) {
-      saveThought(thought.id, thoughtBox.text());
+      ACFThinksAPI.saveThought(thought.id, thoughtBox.text());
       thoughtBox.attr("contenteditable", false)
                 .removeClass("editable");
       $(this).text("edit");
@@ -55,11 +55,11 @@ $(function() {
 
     $("#wipe-all.clear-all").click(function() {
       if (window.confirm("Are you sure?")) {
-        wipeStorage();
+        ACFThinksAPI.wipeStorage();
       }
     });
 
-    getAllThoughts(function(thoughts) { 
+    ACFThinksAPI.getAllThoughts(function(thoughts) { 
       var templateUrl = chrome.extension.getURL("templates/thoughts-item.html");
       $.get(templateUrl, {}, function(template) {
         var render = _.template(template);
@@ -68,7 +68,7 @@ $(function() {
           addThoughtItem(thought, render);
         });
 
-        thoughtsListener(function(added, removed) {
+        ACFThinksAPI.thoughtsListener(function(added, removed) {
           _.map(added, function(thought) {
             addThoughtItem(thought, render);
           });
