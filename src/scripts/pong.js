@@ -279,7 +279,6 @@ Pong.Pong.prototype.update = function(dt) {
   }
   if (this.ball.top() < 0 || this.ball.bottom() > this.canvas.height()) {
     this.ball.vel.y = -this.ball.vel.y;
-    console.log("here");
     this.ball.sound("hit");
   }
 
@@ -296,7 +295,6 @@ Pong.Pong.prototype.update = function(dt) {
   this.players.forEach(function(player) {
     var relationship = ball.relation(player);
     if (relationship.collided) {
-      console.log("here2");
       ball.sound("hit");
       if (ball.pos.x > 0.5 * canvas.width()) {
         ball.vel.x = -Math.abs(ball.vel.x)*1.1;
