@@ -1,5 +1,17 @@
 var Pong = Pong || {};
 
+Pong.PIXEL_RATIO = (function () {
+    var ctx = document.createElement("canvas").getContext("2d"),
+        dpr = window.devicePixelRatio || 1,
+        bsr = ctx.webkitBackingStorePixelRatio ||
+              ctx.mozBackingStorePixelRatio ||
+              ctx.msBackingStorePixelRatio ||
+              ctx.oBackingStorePixelRatio ||
+              ctx.backingStorePixelRatio || 1;
+
+    return dpr / bsr;
+})();
+
 Pong.vector = function(x, y) {
   x = typeof x !== 'undefined' ? x : 0;
   y = typeof y !== 'undefined' ? y : 0;
@@ -99,6 +111,15 @@ Pong.ball.prototype.draw = function(context) {
   context.fillStyle = this.fill;
   context.fill();
 }
+Pong.ball.prototype.sound = function(kind) {
+  switch(kind) {
+    case "hit":
+      var choices = ["pong"];
+      var choice = choices[Math.floor(Math.random() * choices.length)];
+      $.playSound("../assets/audio/"+choice);
+      break;
+  }
+}
 
 Pong.player = function(width, height, imageUrl, forceSize) {
   Pong.rect.call(this, width, height, Math.min(width, height)*0.4);
@@ -128,12 +149,25 @@ Pong.player.prototype.draw = function(context) {
     Pong.rect.prototype.draw.call(this, context);
   }
 }
+Pong.player.prototype.sound = function(kind) {
+  switch(kind) {
+    case "hit":
+      var choices = ["woohoo", "woo", "woosh"];
+      var choice = choices[Math.floor(Math.random() * choices.length)];
+      $.playSound("../assets/audio/"+choice);
+      break;
+    case "won":
+      $.playSound("../assets/audio/yipee");
+      break;
+    case "lost":
+      $.playSound("../assets/audio/shucks");
+      break;
+  }
+}
 
 Pong.Pong = function(canvas) {
-  console.log(canvas);
   this.canvas = canvas;
   this.context = canvas.get(0).getContext('2d');
-  console.log(this.canvas);
 
   this.context.canvas.width  = window.innerWidth;
   this.context.canvas.height = window.innerHeight;
@@ -183,6 +217,12 @@ Pong.Pong.prototype.reset = function() {
   this.context.canvas.width  = window.innerWidth;
   this.context.canvas.height = window.innerHeight;
 
+  this.context.canvas.width = window.innerWidth * Pong.PIXEL_RATIO;
+  this.context.canvas.height = window.innerHeight * Pong.PIXEL_RATIO;
+  this.context.canvas.style.width = window.innerWidth + "px";
+  this.context.canvas.style.height = window.innerHeight + "px";
+  this.context.setTransform(Pong.PIXEL_RATIO, 0, 0, Pong.PIXEL_RATIO, 0, 0);
+
   this.players[0].pos.x = 30 + this.players[0].size.x/2;
   this.players[1].pos.x = canvas.width() - (30 + this.players[1].size.x/2);
 
@@ -207,6 +247,7 @@ Pong.Pong.prototype.clear = function() {
   this.context.textAlign="center"; 
   this.context.font="28px Karla";
   this.context.fillText("Press q to quit", this.canvas.width()/2, 0.1*this.canvas.height());
+  this.context.fillText("Press r to restart", this.canvas.width()/2, 0.1*this.canvas.height()+32);
 }
 
 Pong.Pong.prototype.draw = function() {
@@ -220,30 +261,43 @@ Pong.Pong.prototype.draw = function() {
 }
 
 Pong.Pong.prototype.update = function(dt) {
+  if (!this.enabled) {
+    this.players[1].sound("lost");
+    return;
+  }
+
   this.ball.pos.x += this.ball.vel.x * dt;
   this.ball.pos.y += this.ball.vel.y * dt;
 
   if (this.ball.left() < 0 || this.ball.right() > this.canvas.width()) {
+    if (this.ball.right() > this.canvas.width()) {
+      this.players[1].sound("lost");
+    } else {
+      this.players[1].sound("won");
+    }
     this.reset();
   }
   if (this.ball.top() < 0 || this.ball.bottom() > this.canvas.height()) {
     this.ball.vel.y = -this.ball.vel.y;
+    console.log("here");
+    this.ball.sound("hit");
   }
 
-  this.movePlayer(1, 
-    this.canvas.width() - (30 + this.players[1].size.x/2),
-    this.ball.pos.y, dt);
+  if (this.ball.vel.x > 0 && (this.players[1].pos.y != this.ball.pos.y)) {
+    this.movePlayer(1, 
+      this.canvas.width() - (30 + this.players[1].size.x/2),
+      this.players[1].pos.y - 0.05*(this.players[1].pos.y - this.ball.pos.y),
+      dt);
+  }
 
   var ball = this.ball;
   var canvas = this.canvas;
+  var opponent = this.players[1];
   this.players.forEach(function(player) {
     var relationship = ball.relation(player);
     if (relationship.collided) {
-      // if (relationship.collidedLeft) {
-      //   ball.vel.x = -Math.abs(ball.vel.x)*1.1;
-      // } else if (relationship.collidedRight) {
-      //   ball.vel.x = Math.abs(ball.vel.x)*1.1;
-      // }
+      console.log("here2");
+      ball.sound("hit");
       if (ball.pos.x > 0.5 * canvas.width()) {
         ball.vel.x = -Math.abs(ball.vel.x)*1.1;
       } else {
@@ -255,6 +309,10 @@ Pong.Pong.prototype.update = function(dt) {
         ball.vel.y = -Math.abs(ball.vel.y)*ratioY;
       } else if (relationship.collidedBottom || player.vel.y > 0) {
         ball.vel.y = Math.abs(ball.vel.y)*ratioY;
+      }
+
+      if (player == opponent) {
+        player.sound("hit");
       }
     }
   });
@@ -278,8 +336,12 @@ Pong.addPong = function(container) {
   container.append(canvas);
   var removeHandler = function(event) {
     if (event.keyCode == 113) {
+      pong.disable();
+      pong.reset();
       canvas.remove();
       $(document).off("keypress", removeHandler);
+    } else if (event.keyCode == 114) {
+      pong.reset();
     }
   };
   $(document).keypress(removeHandler);
