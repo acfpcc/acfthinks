@@ -56,6 +56,8 @@ $(function() {
     $("#wipe-all.clear-all").click(function() {
       if (window.confirm("Are you sure?")) {
         ACFThinksAPI.wipeStorage();
+      } else {
+        Pong.addPong($('body'));
       }
     });
 

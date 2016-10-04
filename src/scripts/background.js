@@ -1,6 +1,8 @@
 function executeScripts(tabId, injectDetailsArray) {
+  var finalResult = [];
   function createCallback(tabId, injectDetails, innerCallback) {
-    return function () {
+    return function (result) {
+      finalResult = finalResult.concat(result);
       chrome.tabs.executeScript(tabId, injectDetails, innerCallback);
     };
   }
@@ -8,7 +10,9 @@ function executeScripts(tabId, injectDetailsArray) {
   for (var i = injectDetailsArray.length - 1; i >= 0; --i)
     callback = createCallback(tabId, injectDetailsArray[i], callback);
   if (callback !== null)
-    callback(); 
+    callback();
+
+  return finalResult;
 }
 
 function insertCSSFiles(tabId, injectDetailsArray) {
@@ -35,8 +39,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     response["insertCSSFiles"] = "css inserted!";
   }
   if (request.executeScripts !== undefined) {
-    executeScripts(sender.tab.id, request.executeScripts);
-    response["executeScripts"] = "prompted!";
+    var result = executeScripts(sender.tab.id, request.executeScripts);
+    response["executeScripts"] = result;
   }
   if (request.getCurrentURL == true) {
     response["getCurrentURL"] = sender.tab.url;

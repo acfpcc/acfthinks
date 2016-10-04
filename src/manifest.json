@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "ACF Thinks",
-  "version": "0.91",
+  "version": "0.92",
 
   "short_name": "ACF Thinks",
   "description": "A place where ACFers can write their thoughts",
@@ -34,14 +34,8 @@
     "background",
     "storage",
     "tabs",
-    "http://acf-pcc.appspot.com/",
-    "https://acf-pcc.appspot.com/",
-    "http://www.facebook.com/*",
-    "https://www.facebook.com/*",
-    "http://web.facebook.com/*",
-    "https://web.facebook.com/*",
-    "http://www.youtube.com/*",
-    "https://www.youtube.com/*"
+    "activeTab",
+    "*://*/*"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 

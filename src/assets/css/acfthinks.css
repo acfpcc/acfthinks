@@ -223,3 +223,9 @@ a:hover {
   text-transform: uppercase;
   font-weight: 900;
 }
+
+#pong {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
