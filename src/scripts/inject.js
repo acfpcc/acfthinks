@@ -30,8 +30,8 @@ getState(function(state) {
         cssFiles = cssFiles.concat([{file: "assets/css/youtube.css"}])
       }
       var scripts = [
-        {file: "scripts/underscore.js"},
-        {file: "scripts/jquery.js"},
+        {file: "scripts/underscore-min.js"},
+        {file: "scripts/jquery-min.js"},
         {file: "scripts/api.js"},
         {file: "scripts/prompt.js"},
       ];
