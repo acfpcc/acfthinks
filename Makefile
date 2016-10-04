@@ -5,9 +5,9 @@ endef
 LAST_VERSION := $(call GetFromPkg,version)
 
 # Patterns matching JS files that should be minified.
-JS_FILES = $(filter-out %-min.js, $(wildcard \
-	temp/scripts/*.js \
-))
+JS_FILES = $(patsubst src/%, temp/%, $(filter-out %-min.js, $(wildcard \
+	src/scripts/*.js \
+)))
 
 # Command to run to execute the JS Compressor.
 JS_COMPRESSOR = java -jar utils/compiler.jar
@@ -23,7 +23,7 @@ compress:
 	rm -R temp
 
 copysrc:
-	cp -R src/ temp/
+	cp -R src temp
 
 # target: minify-js - Minifies JS.
 minify-js: $(JS_FILES) $(JS_MINIFIED)
