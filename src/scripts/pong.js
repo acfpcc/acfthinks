@@ -8,7 +8,7 @@ Pong.vector = function(x, y) {
   this.y = y;
 }
 Pong.vector.prototype.magnitude = function(m) {
-  return Math.sqrt(this.x**2 + this.y**2);
+  return Math.sqrt(this.x*this.x + this.y*this.y);
 }
 Pong.vector.prototype.setMagnitude = function(m) {
   var ratio = m/this.magnitude();
