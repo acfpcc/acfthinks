@@ -58,13 +58,12 @@ Pong.rect.prototype.draw = function(context) {
 
   context.strokeStyle = this.fill;
   context.fillStyle = this.fill;
-  // context.fillRect(this.left(), this.top(), this.size.x, this.size.y);
 
   // Set faux rounded corners
   context.lineJoin = "round";
   context.lineWidth = this.cornerRadius;
 
-  // Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
+  // Change origin and dimensions to match true size
   context.strokeRect(this.left()+(this.cornerRadius/2), 
                      this.top()+(this.cornerRadius/2), 
                      this.size.x-this.cornerRadius, 
@@ -126,6 +125,7 @@ Pong.player = function(width, height, imageUrl, forceSize) {
   this.vel = new Pong.vector;
   this.fill = "#fff";
   this.imageLoaded = false;
+  this.score = 0;
   if (typeof imageUrl !== 'undefined') {
     this.image = new Image;
     this.image.src = imageUrl;
@@ -142,6 +142,15 @@ Pong.player = function(width, height, imageUrl, forceSize) {
 Pong.player.prototype = Object.create(Pong.rect.prototype);
 Pong.player.prototype.constructor = Pong.player;
 Pong.player.prototype.draw = function(context) {
+  var canvas = $(context.canvas);
+  var scorePosX = this.pos.x < canvas.width()*0.5 ? 
+      Math.max(this.pos.x, canvas.width()*0.15) :
+      Math.min(this.pos.x, canvas.width()*0.85);
+  context.fillStyle = "#933";
+  context.textAlign="center"; 
+  context.font="52px Karla";
+  context.fillText(this.score, scorePosX, 0.15*canvas.height());
+
   if (this.imageLoaded) {
     context.drawImage(this.image, 
                       this.left(), this.top(), this.size.x, this.size.y);
@@ -246,8 +255,9 @@ Pong.Pong.prototype.clear = function() {
   this.context.fillStyle = "#777";
   this.context.textAlign="center"; 
   this.context.font="28px Karla";
-  this.context.fillText("Press q to quit", this.canvas.width()/2, 0.1*this.canvas.height());
-  this.context.fillText("Press r to restart", this.canvas.width()/2, 0.1*this.canvas.height()+32);
+  this.context.fillText("Click to start", this.canvas.width()/2, 0.1*this.canvas.height());
+  this.context.fillText("Press q to quit", this.canvas.width()/2, 0.1*this.canvas.height()+32);
+  this.context.fillText("Press r to restart", this.canvas.width()/2, 0.1*this.canvas.height()+64);
 }
 
 Pong.Pong.prototype.draw = function() {
@@ -272,20 +282,29 @@ Pong.Pong.prototype.update = function(dt) {
   if (this.ball.left() < 0 || this.ball.right() > this.canvas.width()) {
     if (this.ball.right() > this.canvas.width()) {
       this.players[1].sound("lost");
+      this.players[0].score++;
     } else {
       this.players[1].sound("won");
+      this.players[1].score++;
     }
     this.reset();
   }
-  if (this.ball.top() < 0 || this.ball.bottom() > this.canvas.height()) {
-    this.ball.vel.y = -this.ball.vel.y;
+  if (this.ball.top() < 0) {
+    this.ball.vel.y = Math.abs(this.ball.vel.y);
+    this.ball.sound("hit");
+  } else if (this.ball.bottom() > this.canvas.height()) {
+    this.ball.vel.y = -Math.abs(this.ball.vel.y);
     this.ball.sound("hit");
   }
 
+  var maxSpeedPlayer = 500;
   if (this.ball.vel.x > 0 && (this.players[1].pos.y != this.ball.pos.y)) {
+    var playerSpeed = Math.abs(0.1*(this.players[1].pos.y - this.ball.pos.y)/0.001);
+    var finalSpeed = Math.min(playerSpeed, maxSpeedPlayer);
+    var direction = this.players[1].pos.y < this.ball.pos.y
     this.movePlayer(1, 
       this.canvas.width() - (30 + this.players[1].size.x/2),
-      this.players[1].pos.y - 0.05*(this.players[1].pos.y - this.ball.pos.y),
+      this.players[1].pos.y + (direction ? finalSpeed : -finalSpeed)*dt,
       dt);
   }
 
@@ -296,22 +315,37 @@ Pong.Pong.prototype.update = function(dt) {
     var relationship = ball.relation(player);
     if (relationship.collided) {
       ball.sound("hit");
+      var maxSpeedX = 600;
       if (ball.pos.x > 0.5 * canvas.width()) {
-        ball.vel.x = -Math.abs(ball.vel.x)*1.1;
+        ball.vel.x = -Math.min(Math.abs(ball.vel.x)*1.1, maxSpeedX);
       } else {
-        ball.vel.x = Math.abs(ball.vel.x)*1.1;
+        ball.vel.x = Math.min(Math.abs(ball.vel.x)*1.1, maxSpeedX);
       }
 
       var ratioY = player.vel.magnitude()*2/canvas.height() + 0.81;
+      var maxSpeedY = 600;
       if (relationship.collidedTop || player.vel.y < 0) {
-        ball.vel.y = -Math.abs(ball.vel.y)*ratioY;
+        if (relationship.collidedTop) {
+          var speedY = maxSpeedY;
+        } else {
+          var speedY = Math.abs(ball.vel.y)*ratioY*(0.5+3*Math.random());
+        }
+        ball.vel.y = -Math.min(speedY, maxSpeedY);
       } else if (relationship.collidedBottom || player.vel.y > 0) {
-        ball.vel.y = Math.abs(ball.vel.y)*ratioY;
+        if (relationship.collidedBottom) {
+          var speedY = maxSpeedY;
+        } else {
+          var speedY = Math.abs(ball.vel.y)*ratioY*(0.5+3*Math.random());
+        }
+        ball.vel.y = Math.min(speedY, maxSpeedY);
       }
 
       if (player == opponent) {
         player.sound("hit");
       }
+
+      var maxVel = 800;
+      ball.vel.setMagnitude(Math.min(ball.vel.magnitude(), maxVel));
     }
   });
 
