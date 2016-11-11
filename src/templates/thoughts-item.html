@@ -1,8 +1,8 @@
 <li class="thoughts-item" id="thought-item-<%= id %>">
   <p class="thought"><%= thought %></p>
-  <p class="date"><% 
-  var m_names = new Array("January", "February", "March", 
-"April", "May", "June", "July", "August", "September", 
+  <p class="date"><%
+  var m_names = new Array("January", "February", "March",
+"April", "May", "June", "July", "August", "September",
 "October", "November", "December");
 var curr_date = date.getDate();
 var sup = "";
@@ -18,13 +18,16 @@ if (curr_date == 1 || curr_date == 21 || curr_date ==31) {
 var curr_month = date.getMonth();
 var curr_year = date.getFullYear();
 
-print(curr_date + "<SUP>" + sup + "</SUP> " 
+print(curr_date + "<SUP>" + sup + "</SUP> "
 + m_names[curr_month].toUpperCase() + " " + curr_year);
    %></p>
   <div class="buttons">
     <% if (canEdit) {
       print('<button class="edit material-icons" data-thought-id='+id+'>edit</button>');
     } %>
+    <a href="https://www.facebook.com/dialog/feed?app_id=609974029172663&amp;caption=<%= thought %>&amp;link=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Facf-thinks%2Fhokmokipibfffbalbanjojpkopmgpfoc&amp;redirect_uri=http://www.acfpcc.org/">
+      <button class="material-icons">share</button>
+    </a>
     <button class="delete material-icons" data-thought-id=<%= id %>>
       clear
     </button>

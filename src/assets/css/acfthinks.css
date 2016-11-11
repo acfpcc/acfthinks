@@ -7,7 +7,10 @@ html, body {
   height: 100%;
   margin: 0px;
   padding: 0px;
-  background-image: linear-gradient(-153deg, #C7CDFF 0%, #96FDB4 100%) !important;
+  /* background-image: linear-gradient(-153deg, #C7CDFF 0%, #96FDB4 100%) !important; */
+  background-color: #FFF;
+  -webkit-box-shadow: inset 0 0 7.5rem rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 7.5rem rgba(0, 0, 0, 0.2);
   overflow:auto;
 }
 
@@ -62,7 +65,7 @@ main div.acfthinks-content {
 
 #thought-prompt {
   font-size: 32pt;
-  color: white;
+  color: #000;
   background: none;
   text-align: center;
 }
@@ -108,11 +111,11 @@ p.content {
   padding: 0.5em 0.2em;
   margin: 0.2em 0 1em 0;
   box-sizing: border-box;
-  background: linear-gradient(30deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+  background: linear-gradient(30deg, rgba(0,0,0,0.03), rgba(0,0,0,0.015), rgba(0,0,0,0.025));
+  box-shadow: 0px 20px 10px -10px rgba(0,0,0,.1);
   border: none;
   margin-top: 20px;
   color: #5F5F5F;
-  box-shadow: 1px 1px 30px rgba(255,255,255,.1);
   text-align: center;
   outline: none;
   resize: none;
@@ -140,7 +143,7 @@ p.content {
   display: inline-block;
   font-size: 22px;
   font-family: 'Indie Flower';
-  color: #fff;
+  color: #999;
   -ms-transform:rotate(-25deg);
   -webkit-transform:rotate(-25deg);
   transform:rotate(-25deg);
@@ -171,8 +174,8 @@ p.content {
 }
 .thoughts .thoughts-item .thought.editable {
   outline: none;
-  background: linear-gradient(30deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6), rgba(255,255,255,0.2));
-  box-shadow: 1px 1px 30px rgba(255,255,255,.1);
+  background: linear-gradient(30deg, rgba(0,0,0,0.03), rgba(0,0,0,0.015), rgba(0,0,0,0.025));
+  box-shadow: 0px 20px 10px -10px rgba(0,0,0,.1);
 }
 .thoughts .thoughts-item .date {
   color: #909090;
